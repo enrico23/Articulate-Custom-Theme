@@ -1,0 +1,19 @@
+@using Articulate
+@inherits UmbracoViewPage<Articulate.Models.IMasterModel>
+
+@{
+    var categories = Umbraco.GetAllCategories(Model);
+}
+
+                 
+    @if(categories != null){
+        <ul id="categorylist" class="list-inline">
+            @foreach (var c in categories)
+            {
+               <li><a href="@Url.ArticulateCategoryUrl(Model, c)" title="Category: @c"> <span class="label label-success">@c</span></a></li>
+            }
+        </ul>
+    }
+
+
+

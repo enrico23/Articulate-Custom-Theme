@@ -1,0 +1,38 @@
+@using Articulate
+@using Articulate.Models
+@using ClientDependency.Core.Mvc
+@using Umbraco.Core
+@using Umbraco.Web
+@using Umbraco.Web.Models
+@inherits UmbracoViewPage<ListModel>
+@{
+    Layout = "Master.cshtml";
+
+}
+
+
+@*<h4>@Model.DocumentTypeAlias (template list)</h4>*@
+
+
+    
+   
+    @if (!Model.Children.Any())
+    {
+
+        if (!Request.QueryString["term"].IsNullOrWhiteSpace())
+        {
+            <div class="box-inner post xfolkentry">No blog posts found</div>
+        }
+
+    }
+    else
+    {
+        @Html.ThemedPartial(Model,"AllPosts")
+
+     
+        
+        @Html.ThemedPartial(Model, "Pager", Model.Pages)
+    
+
+    
+}

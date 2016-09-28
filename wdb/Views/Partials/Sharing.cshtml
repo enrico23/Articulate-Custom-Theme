@@ -1,0 +1,16 @@
+@using Articulate
+@model Articulate.Models.PostModel
+
+<ul class="list-inline">
+    <li><a title="Share on Facebook" target="_blank" href="http://www.facebook.com/sharer.php?u=@Model.UrlWithDomain()">
+        <div class="share-button"><i class="fa fa-facebook-square fa-2x"></i></div></a>
+    </li>
+   <li><a href="https://twitter.com/share" class="twitter-share-button" data-url='@Model.UrlWithDomain()' data-text='@Model.Name'>Tweet</a>
+    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; js.async = true; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+   </li>
+    <!-- Place this tag where you want the +1 button to render. -->
+    <li> <a class="g-plusone" data-size="medium" href='@Model.UrlWithDomain()'></a></li>
+
+</ul>
+
+

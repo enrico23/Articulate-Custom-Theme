@@ -1,0 +1,18 @@
+@using Articulate
+@model Articulate.Models.IMasterModel
+
+
+<div class="col-sm-3 col-md-3 pull-right">
+    <form method="get" action="@Url.ArticulateSearchUrl(Model)" class="navbar-form" role="search" id="Search">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search" name="term"  value="" maxlength="30">
+        <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" id="btnSearch"><i class="glyphicon glyphicon-search"></i></button>
+            <button class="btn btn-default" type="reset" id="btnReset"><i class="glyphicon glyphicon-remove-sign"></i></button>
+        </div>
+    </div>
+    </form>
+</div>
+
+    
+

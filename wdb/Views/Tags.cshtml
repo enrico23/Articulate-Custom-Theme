@@ -1,0 +1,81 @@
+@using Articulate
+@using Articulate.Models
+@using Umbraco.Core
+@using Umbraco.Web
+@inherits UmbracoViewPage<Articulate.Models.TagListModel>
+@{
+    Layout = "Master.cshtml";
+    var asArray = Model.Tags.ToArray();
+    string pageName = "";
+    
+    if (Context.Request.Url.AbsoluteUri.Contains("/categories")){
+        pageName = "Blog Categories";
+    }
+    else {
+        pageName = "Blog Tags";
+    }
+       
+}
+
+@*<h4>Tags template</h4>*@
+
+                <div id="archive">
+
+                   @* <h1>@Model.Name</h1>*@
+
+                    <h1>@pageName</h1>
+
+                    <hr />
+
+                    <ul class="nav nav-pills" role="tablist">
+                        @for (var i = 0; i < asArray.Length; i++)
+                        {
+                            <li role="presentation">
+                                <a href="#tag-@i">@asArray[i].TagName <span class="badge">@asArray[i].PostCount</span></a> 
+                            </li>
+                        }
+                    </ul>
+
+                    <hr />
+
+                    @for (var i = 0; i < asArray.Length; i++)
+                    {
+
+                       <h2>
+                             @*<a href="@Url.ArticulateTagRssUrl(asArray[i])" class="fa fa-rss"><span>RSS</span></a>*@
+                            <a id="tag-@i" href="@asArray[i].TagUrl">@asArray[i].TagName</a>
+                        </h2>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>Date</td>
+                                        <td>Name</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in asArray[i].Posts.OrderByDescending(x => x.PublishedDate)) { 
+                                        <tr>
+                                            <td>
+                                                <span>@item.PublishedDate.ToString("yyyy-MM-dd")</span>
+                                            </td>
+                                            <td>
+                                                <a href="@item.Url">@item.Name</a>
+                                                <a href="@item.Url#disqus_thread" data-disqus-identifier="@item.GetContentKey()"></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                 
+                                </tbody>
+                           
+                            </table>
+                        </div>
+
+                     
+
+                    }
+                </div>
+            
+
+  

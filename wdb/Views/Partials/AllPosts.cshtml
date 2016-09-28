@@ -1,0 +1,57 @@
+@using Articulate
+@using Articulate.Models
+@inherits UmbracoViewPage<Articulate.Models.IMasterModel>
+
+@{
+    var posts = Model.Children<PostModel>();
+}
+
+
+
+            @foreach (var post in posts)
+            {
+
+                <h2>
+                    <a href="@post.Url">@post.Name</a>
+                </h2>
+                
+                @*<p class="lead">
+                    by <a href="index.php">Start Bootstrap</a>
+                </p>*@
+                
+                <p><span class="glyphicon glyphicon-time"></span> 
+                    
+                        <time datetime="@post.PublishedDate">
+                            @post.PublishedDate.ToString("MMM d, yyyy HH:mm")
+                        </time>
+                    
+                </p>
+               
+                
+                 if (!post.PostImageUrl.IsNullOrWhiteSpace())
+                 {
+                        var thumbnail = post.GetCropUrl("postImage", "blog-lg");
+                        if (!thumbnail.IsNullOrWhiteSpace())   
+                        {
+                            <hr>
+                            <img class="img-responsive" src="@thumbnail" alt="@post.Name" />
+                        }
+                 }
+                
+                
+                
+                <hr>
+                <p>@post.Excerpt&hellip;</p>
+                <p><a data-disqus-identifier="@post.GetContentKey()" class="comment-count" href="@post.Url#disqus_thread"></a></p>
+                <a class="btn btn-primary" href="@post.Url">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+                <hr>
+
+             
+            }
+
+
+               
+
+
+

@@ -1,0 +1,32 @@
+@using Articulate
+@inherits UmbracoViewPage<Articulate.Models.IMasterModel>
+
+@{
+    var tagModel = Umbraco.GetPostTagCollection(Model);
+
+    var tagsAndWeight = tagModel.Select(x => new { tag = x, weight = tagModel.GetTagWeight(x, 5) })
+                .OrderByDescending(x => x.weight)
+                .Take(50)
+                .RandomOrder();
+}
+
+<div class="tagcloud">
+    
+
+    <div class="content">
+        @*
+        // removed extension method
+        @Html.TagCloud(tagModel, 5, 50)
+
+        *@
+
+        <ul class="list-inline">
+            @foreach (var item in tagsAndWeight) { 
+            <li class="@item.weight">
+                <a href="@item.tag.TagUrl" title="@item.tag.TagName">
+                    <span class="label label-info">@item.tag.TagName</span></a>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

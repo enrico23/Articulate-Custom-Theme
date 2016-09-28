@@ -1,0 +1,78 @@
+@using Articulate
+@using Articulate.Models
+@using Umbraco.Core
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<Articulate.Models.PostModel>
+
+@*This partial accepts view data parameters to modify how it is displayed - IsListView*@
+
+<div class="post">
+
+    <h1><a class="postheader taggedlink" href="@Model.Url">@Model.Name</a></h1>
+    <div class="lead">
+         @Html.ThemedPartial(Model, "AuthorInfo", Model)  
+    </div>
+    <hr />
+
+
+
+    @if (Model.Parent.Name != "Pages") 
+    {
+       
+         <!-- Date/Time -->
+         <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
+             <span class="glyphicon glyphicon-time"></span> Posted on @Model.PublishedDate.ToString("MMMM d, yyyy HH:mm") 
+
+         </div>
+        <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
+          @Html.ThemedPartial(Model, "Sharing")
+        </div>
+         
+        
+        <div class="clearfix"></div>
+       <hr>
+
+        if (!Model.PostImageUrl.IsNullOrWhiteSpace())
+        {
+            var cropUrl = Model.GetCropUrl("postImage","blog-lg");
+            if (!cropUrl.IsNullOrWhiteSpace())
+            {
+                <img  alt="@Model.Name" src="@cropUrl" class="img-responsive" />
+                <hr />
+            }
+        }
+        
+    }
+
+    <div class="postcontent">        
+        @Model.Body
+    </div>
+    <hr />
+
+    @if (Model.Parent.Name != "Pages") 
+    {
+        <div class="postfooter box-inner">
+            Tags:
+            @Html.ListTags(Model,
+            @<a href="@Url.ArticulateTagUrl(Model, @item)">@item</a>)
+            <br />
+            Categories:
+            @Html.ListCategories(Model,
+            @<a href="@Url.ArticulateCategoryUrl(Model, @item)">@item</a>, " | ")
+            <br />
+
+            @*<img id="Img4" alt="comment" src="@Url.ThemedAsset(Model, "img/comments.gif")" />*@
+
+            <a rel="nofollow" href="@Model.Url#disqus_thread" data-disqus-identifier="@Model.GetContentKey()"></a>
+        </div>
+        <hr />
+    }
+    
+    
+    @if ((ViewBag.IsListView == null || ViewBag.IsListView == false) && Model.EnableComments)
+    {
+        <br/>
+        @Html.ThemedPartial(Model, "CommentsDisqus")
+        @*@Html.ThemedPartial(Model, "CommentsGooglePlus")*@
+        @*@Html.ThemedPartial(Model, "CommentsFacebook")*@
+    }
+</div>
